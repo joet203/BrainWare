@@ -1,15 +1,16 @@
-﻿namespace Web.Infrastructure
-{
-    using System.Data.Common;
-    using System.Data.SqlClient;
+﻿using System.Data.Common;
+using System.Data.SqlClient;
+using System.Web.Configuration;
 
+namespace Web.Infrastructure
+{
     public class Database
     {
         private readonly SqlConnection _connection;
 
         public Database()
         {
-            _connection = new SqlConnection("Data Source=(LocalDb)\\MSSQLLocalDB;Initial Catalog=BrainWare;Integrated Security=SSPI;AttachDBFilename=D:\\BrainWare\\Web\\App_Data\\BrainWare.mdf");
+            _connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["localdb"].ConnectionString);
 
             _connection.Open();
         }
