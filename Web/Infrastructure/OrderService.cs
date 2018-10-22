@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using System.Data;
+using Web.Infrastructure.Repositories;
+using Web.Models;
 
 namespace Web.Infrastructure
 {
-    using System.Data;
-    using Models;
-
     public class OrderService
     {
+        private OrderRepository _orderRepo
+        { get; set; }
+        
+        public OrderService(OrderRepository orderRepo)
+        {
+            _orderRepo = orderRepo;
+        }
         public List<Order> GetOrdersForCompany(int CompanyId)
         {
-
-            var database = new Database();
-
-            // Get the orders
-            var sql1 =
-                "SELECT c.name, o.description, o.order_id FROM company c INNER JOIN [order] o on c.company_id=o.company_id";
-
-            var reader1 = database.ExecuteReader(sql1);
+            //Get the orders
+            var reader1 = _orderRepo.GetOrders();
 
             var values = new List<Order>();
             
@@ -40,10 +38,7 @@ namespace Web.Infrastructure
             reader1.Close();
 
             //Get the order products
-            var sql2 =
-                "SELECT op.price, op.order_id, op.product_id, op.quantity, p.name, p.price FROM orderproduct op INNER JOIN product p on op.product_id=p.product_id";
-
-            var reader2 = database.ExecuteReader(sql2);
+            var reader2 = _orderRepo.GetOrderProducts();
 
             var values2 = new List<OrderProduct>();
 
@@ -67,9 +62,16 @@ namespace Web.Infrastructure
 
             reader2.Close();
 
-            foreach (var order in values)
+            values = SetOrderProductsAndTotals(values, values2);
+
+            return values;
+        }
+
+        private List<Order> SetOrderProductsAndTotals(List<Order> orders, List<OrderProduct> orderProducts)
+        {
+            foreach (var order in orders)
             {
-                foreach (var orderproduct in values2)
+                foreach (var orderproduct in orderProducts)
                 {
                     if (orderproduct.OrderId != order.OrderId)
                         continue;
@@ -78,8 +80,7 @@ namespace Web.Infrastructure
                     order.OrderTotal = order.OrderTotal + (orderproduct.Price * orderproduct.Quantity);
                 }
             }
-
-            return values;
+            return orders;
         }
     }
 }
