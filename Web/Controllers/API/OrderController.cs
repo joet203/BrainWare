@@ -13,7 +13,7 @@ namespace Web.Controllers
         [HttpGet]
         public IEnumerable<Order> GetOrders(int id = 1)
         {
-            var data = new OrderService(new OrderRepository());
+            var data = new OrderService(new OrderRepository( new Database()));
 
             return data.GetOrdersForCompany(id);
         }

@@ -161,8 +161,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\IOrderService.cs" />
     <Compile Include="Infrastructure\Database.cs" />
     <Compile Include="Infrastructure\OrderService.cs" />
+    <Compile Include="Infrastructure\Repositories\IOrderRepository.cs" />
     <Compile Include="Infrastructure\Repositories\OrderRepository.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

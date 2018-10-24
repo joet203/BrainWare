@@ -5,7 +5,7 @@ using Web.Models;
 
 namespace Web.Infrastructure
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
         private OrderRepository _orderRepo
         { get; set; }
@@ -14,60 +14,22 @@ namespace Web.Infrastructure
         {
             _orderRepo = orderRepo;
         }
-        public List<Order> GetOrdersForCompany(int CompanyId)
+
+        //Retrieve orders for specified company and populate products in orders
+        public IList<Order> GetOrdersForCompany(int CompanyId)
         {
             //Get the orders
-            var reader1 = _orderRepo.GetOrders();
-
-            var values = new List<Order>();
-            
-            while (reader1.Read())
-            {
-                var record1 = (IDataRecord) reader1;
-
-                values.Add(new Order()
-                {
-                    CompanyName = record1.GetString(0),
-                    Description = record1.GetString(1),
-                    OrderId = record1.GetInt32(2),
-                    OrderProducts = new List<OrderProduct>()
-                });
-
-            }
-
-            reader1.Close();
+            var orders = _orderRepo.GetOrdersByCompany(CompanyId);
 
             //Get the order products
-            var reader2 = _orderRepo.GetOrderProducts();
+            var products = _orderRepo.GetOrderProducts();
 
-            var values2 = new List<OrderProduct>();
-
-            while (reader2.Read())
-            {
-                var record2 = (IDataRecord)reader2;
-
-                values2.Add(new OrderProduct()
-                {
-                    OrderId = record2.GetInt32(1),
-                    ProductId = record2.GetInt32(2),
-                    Price = record2.GetDecimal(0),
-                    Quantity = record2.GetInt32(3),
-                    Product = new Product()
-                    {
-                        Name = record2.GetString(4),
-                        Price = record2.GetDecimal(5)
-                    }
-                });
-             }
-
-            reader2.Close();
-
-            values = SetOrderProductsAndTotals(values, values2);
+            var values = SetOrderProductsAndTotals(orders, products);
 
             return values;
         }
 
-        private List<Order> SetOrderProductsAndTotals(List<Order> orders, List<OrderProduct> orderProducts)
+        private IList<Order> SetOrderProductsAndTotals(IList<Order> orders, IList<OrderProduct> orderProducts)
         {
             foreach (var order in orders)
             {

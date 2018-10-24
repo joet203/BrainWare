@@ -7,29 +7,34 @@ namespace Web.Infrastructure
     public class Database
     {
         private readonly SqlConnection _connection;
-
+        public readonly string connectionString;
         public Database()
         {
-            _connection = new SqlConnection(WebConfigurationManager.ConnectionStrings["localdb"].ConnectionString);
-
-            _connection.Open();
+            connectionString = WebConfigurationManager.ConnectionStrings["localdb"].ConnectionString;
         }
 
 
-        public DbDataReader ExecuteReader(string query)
+        public DbDataReader ExecuteReader(SqlCommand query)
         {
-           
-
-            var sqlQuery = new SqlCommand(query, _connection);
-
-            return sqlQuery.ExecuteReader();
+            SqlDataReader ret;
+            SqlConnection connection = new SqlConnection(connectionString);
+            
+            connection.Open();
+            query.Connection = connection;
+            ret = query.ExecuteReader();
+            
+            return ret;
         }
 
-        public int ExecuteNonQuery(string query)
+        public int ExecuteNonQuery(SqlCommand query)
         {
-            var sqlQuery = new SqlCommand(query, _connection);
+            int ret;
+            SqlConnection connection = new SqlConnection(connectionString);
 
-            return sqlQuery.ExecuteNonQuery();
+            connection.Open();
+            ret = query.ExecuteNonQuery();
+
+            return ret;
         }
 
     }
