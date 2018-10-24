@@ -14,7 +14,7 @@ namespace Tests.Repositories
             {
                 if (_orderRepository == null)
                 {
-                    return _orderRepository = new OrderRepository(_db);
+                    return _orderRepository = new OrderRepository();
                 }
                 return _orderRepository;
             }

@@ -7,10 +7,9 @@ namespace Web.Infrastructure
 {
     public class OrderService : IOrderService
     {
-        private OrderRepository _orderRepo
-        { get; set; }
+        private readonly IOrderRepository _orderRepo;
         
-        public OrderService(OrderRepository orderRepo)
+        public OrderService(IOrderRepository orderRepo)
         {
             _orderRepo = orderRepo;
         }

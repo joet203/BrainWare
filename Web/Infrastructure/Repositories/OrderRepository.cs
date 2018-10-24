@@ -9,14 +9,12 @@ namespace Web.Infrastructure.Repositories
     public class OrderRepository : IOrderRepository
     {
         private Database _db;
-        public OrderRepository(Database db)
+        public OrderRepository()
         {
-            _db = db;
+            _db = new Database();
         }
         public IList<Order> GetOrdersByCompany(int companyId)
         {
-            var database = new Database();
-
             // Get the orders
             SqlCommand orderQuery = new SqlCommand();
             orderQuery.CommandText = "SELECT c.name, o.description, o.order_id FROM company c INNER JOIN [order] o ON c.company_id=o.company_id " +
