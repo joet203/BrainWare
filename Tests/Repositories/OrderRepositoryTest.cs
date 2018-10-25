@@ -6,7 +6,6 @@ namespace Tests.Repositories
     [TestClass]
     public class OrderRepositoryTest
     {
-        private Database _db { get; set; }
         private IOrderRepository _orderRepository;
         public IOrderRepository OrderRepository
         {
@@ -14,16 +13,10 @@ namespace Tests.Repositories
             {
                 if (_orderRepository == null)
                 {
-                    return _orderRepository = new OrderRepository();
+                    return _orderRepository = new OrderRepository(new DatabaseContext());
                 }
                 return _orderRepository;
             }
-        }
-
-        [TestInitialize]
-        public void Setup()
-        {
-            _db = new Database();
         }
 
         [TestMethod]

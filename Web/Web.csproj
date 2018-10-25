@@ -192,8 +192,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\IDatabaseContext.cs" />
     <Compile Include="Infrastructure\IOrderService.cs" />
-    <Compile Include="Infrastructure\Database.cs" />
+    <Compile Include="Infrastructure\DatabaseContext.cs" />
     <Compile Include="Infrastructure\OrderService.cs" />
     <Compile Include="Infrastructure\Repositories\IOrderRepository.cs" />
     <Compile Include="Infrastructure\Repositories\OrderRepository.cs" />

@@ -18,6 +18,7 @@ namespace Web
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IOrderService, OrderService>();
             container.RegisterType<IOrderRepository, OrderRepository>();
+            container.RegisterType<IDatabaseContext, DatabaseContext>();
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
