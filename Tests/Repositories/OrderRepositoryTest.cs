@@ -20,13 +20,15 @@ namespace Tests.Repositories
         }
 
         [TestMethod]
-        public void OrderRepository_GetOrdersByCompanyId_MustReturn3Orders()
+        public void OrderRepository_GetOrdersByCompanyId_MustReturnCorrectNumberOfOrders()
         {
             const int companyId = 1;
+            const int numberOfOrders = 3;
 
             var orders = OrderRepository.GetOrdersByCompany(companyId);
 
-            Assert.IsTrue(orders.Count == 3);
+            Assert.IsTrue(orders.Count == numberOfOrders, 
+                          "Expected " + numberOfOrders.ToString() + " orders for company 1, but found " + orders.Count.ToString());
         }
     }
 }
