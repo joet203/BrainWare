@@ -28,7 +28,8 @@ namespace Tests.Repositories
             var orders = OrderRepository.GetOrdersByCompany(companyId);
 
             Assert.IsTrue(orders.Count == numberOfOrders, 
-                          "Expected " + numberOfOrders.ToString() + " orders for company 1, but found " + orders.Count.ToString());
+                          "Expected " + numberOfOrders.ToString() + " orders for company " + companyId + 
+                          ", but found " + orders.Count.ToString());
         }
     }
 }
