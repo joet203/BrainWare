@@ -2,7 +2,6 @@
 
 namespace Web.Models
 {
-    using System.Security.AccessControl;
 
     public class Order
     {
@@ -16,27 +15,5 @@ namespace Web.Models
 
         public List<OrderProduct> OrderProducts { get; set; }
 
-    }
-
-
-    public class OrderProduct
-    {
-        public int OrderId { get; set; }
-
-        public int ProductId { get; set; }
-
-        public Product Product { get; set; }
-    
-        public int Quantity { get; set; }
-
-        public decimal Price { get; set; }
-
-    }
-
-    public class Product
-    {
-        public string Name { get; set; }
-
-        public decimal Price { get; set; }
     }
 }
